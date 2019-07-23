@@ -1,0 +1,79 @@
+body {
+  width: 960px;
+  text-align: center;
+  margin: auto;
+}
+
+header , footer {
+  /* border: 1px black solid; */
+  height: 75px;
+  margin: auto;
+}
+
+header div {
+  width: 80%;
+  /* margin: auto; */
+  margin-left: 20px;
+  height: auto;
+  padding-top: 10px;
+}
+
+header img {
+  margin: auto;
+  float: left;
+  border: 1px blue solid;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 30px;
+  float: left;
+  
+}
+
+header ul {
+  float: right;
+  padding-right: 20px;
+}
+
+header li {
+  display: inline;
+}
+
+#results-sidebar {
+  float: left;
+  border: 1px black solid;
+  height: 400px;
+  width:200px;
+  padding: 5px;
+}
+
+#content-container {
+  padding-left: 200px;
+}
+
+#product-container {
+  display: inline;
+  clear: both;
+  padding-left: 175px;
+}
+
+#productList {
+  padding-top: 15px;
+  display: inline-block;
+  width: 32%;
+  border: 1px solid black;
+}
+
+#voteButton button {
+  width: 50%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#aboutProducts {
+  /* border: 1px solid black; */
+  height: 140px;
+  text-align: left;
+  padding-left: 10px;
+}
