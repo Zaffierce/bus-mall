@@ -65,7 +65,16 @@ header li {
   border: 1px solid black;
 }
 
-#voteButton button {
+#productList img {
+  height: 150px;
+  width: 235px;
+}
+
+#productList input submit {
+  width: 50%;
+}
+
+#voteButton input{
   width: 50%;
   margin-top: 10px;
   margin-bottom: 10px;
