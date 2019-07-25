@@ -86,3 +86,8 @@ header li {
   text-align: left;
   padding-left: 10px;
 }
+
+#myChart {
+width: 150px;
+height: 392px;
+}
