@@ -6,6 +6,7 @@ var productThreeEl = document.getElementById('product-three');
 var formEl = document.getElementById('votes');
 var productFieldset = document.getElementById('fieldset');
 var productDescriptionEl = document.getElementById('aboutProducts');
+var resetButtonEl = document.getElementById('resetChart');
 
 var productsArray = {
   products: {
@@ -23,39 +24,74 @@ var votesArray = [];                //  of empty arrays?!
 var namesArray = [];                //
 var rgbArrayBG = [];                //  I doooooo
 var rgbArrayBD = [];                //
+var top3Votes = [];                 //  Will use later
+var top3Labels = [];                //  Will use later
 
-function Product(name, description) {
+
+function Product(name, description, votes, views) {
   this.name = name;
   this.filepath = `images/${name}`;
-  this.votes = 0;
-  this.views = 0;
+  this.votes = votes;
+  this.views = views;
   this.description = description;
 
   allProducts.push(this);
 }
 
-for (var i = 0; i < productsArray.products.name.length; i++) {
-  new Product(productsArray.products.name[i], productsArray.descriptions.text[i]);
-}
-
-function generateRandomRGB() {
-  for (var i = 0; i < allProducts.length; i++) {
-    var r = randomNumber(0, 255);
-    var g = randomNumber(0, 255);
-    var b = randomNumber(0, 255);
-    var rgbBG = `rgba(${r}, ${g}, ${b}, 0.2)`;
-    var rgbBD = `rgba(${r}, ${g}, ${b}, 1)`;
-    rgbArrayBG.push(rgbBG);
-    rgbArrayBD.push(rgbBD);
+if (!localStorage.votes) {    //  If localStorage.votes does not exist, create
+  createProducts();           //  our products.  Else....
+} else {
+  allProducts = [];           // Dump the allProducts array
+  var getVotes = localStorage.getItem('votes');
+  var parseVotes = JSON.parse(getVotes);
+  for (var i = 0; i < parseVotes.length; i++) {
+    new Product(parseVotes[i].name, parseVotes[i].description, parseVotes[i].votes, parseVotes[i].views);
   }
 }
 
+function createProducts() {   // Ran if localStorage.votes does not exist
+  for (var i = 0; i < productsArray.products.name.length; i++) {
+    new Product(productsArray.products.name[i], productsArray.descriptions.text[i], 0, 0);
+  }
+}
+
+function generateRandomRGB() {                            //
+  for (var i = 0; i < allProducts.length; i++) {          //  Here we do some 
+    var r = randomNumber(0, 255);                         //  pretty things with
+    var g = randomNumber(0, 255);                         //  rgb to create random
+    var b = randomNumber(0, 255);                         //  numbers for each
+    var rgbBG = `rgba(${r}, ${g}, ${b}, 0.2)`;            //  r, g and b then feed it
+    var rgbBD = `rgba(${r}, ${g}, ${b}, 1)`;              //  into a template literal and
+    rgbArrayBG.push(rgbBG);                               //  push it to an array for
+    rgbArrayBD.push(rgbBD);                               //  our chart colors
+  }
+}
+
+// allProducts.sort(function(a, b) {
+//   if (a.votes < b.votes) {
+//     return 1;
+//   } else {
+//     return -1;
+//   }
+// });
+
+// top3Votes.push(allProducts[0].votes)
+
 
 function makeChart() {
+  namesArray = [];
+  votesArray = [];
   for (var i = 0; i < allProducts.length; i++) {
     namesArray.push(allProducts[i].name); //labels
     votesArray.push(allProducts[i].votes); //data
   }
+  // top3Votes = [];                                     //
+  // top3Labels = [];                                    // Taken from Adrian's
+  // var top3Obj = allProducts.slice(0, 3);              // idea in class.
+  // for (var i = 0; i < top3Obj.length; i++){           // 
+  //   top3Labels.push(top3Obj[i].name);                 // Will use for future ideas
+  //   top3Votes.push(top3Obj[i].votes);                 //
+  // }
 
   generateRandomRGB();
 
@@ -117,15 +153,21 @@ function getUniqueIndex() {
   return randomIndex;
 }
 
+
+function saveVotes() {
+  var jsonVotes = JSON.stringify(allProducts);
+  localStorage.setItem('votes', jsonVotes);
+}
+
 function handleVote() {
+  event.preventDefault();
 
   if (votesRemaining === 0) {
     formEl.removeEventListener('submit', handleVote);
-    event.preventDefault();
-    alert('Thank you for your votes, you have hit our limit and cannot vote anymore.');
+    saveVotes();
     makeChart();
+    alert('Thank you for your votes, you have hit our limit and cannot vote anymore.');
   } else {
-    event.preventDefault();
     var voteOption = event.target.title; //voteOption = to title, title = name, name = picture.png 
 
     for (var i = 0; i < allProducts.length; i++) {
@@ -162,8 +204,15 @@ function resetProductDescription() {
   productDescriptionEl.textContent = ''; //Previously mentioned in handleVote();
 }
 
+function resetChart() {
+  localStorage.clear(votes); //Clears localStores.votes in case there's something else you dont want to clear
+  location.reload(); //Reloads the page
+}
+
 formEl.addEventListener('click', handleVote);
 
 productFieldset.addEventListener('mouseover', productDescription, false);
+
+resetButtonEl.addEventListener('click', resetChart);
 
 render();
