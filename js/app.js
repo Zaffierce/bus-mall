@@ -24,11 +24,11 @@ var votesArray = [];                //  of empty arrays?!
 var namesArray = [];                //
 var rgbArrayBG = [];                //  I doooooo
 var rgbArrayBD = [];                //
-var top3Votes = [];                 //  Will use later
-var top3Labels = [];                //  Will use later
+// var top3Votes = [];                 //  Will use later
+// var top3Labels = [];                //  Will use later
 
 
-function Product(name, description, votes, views) {
+function Product(name, description, votes, views) {  //Collecting all of the object instances
   this.name = name;
   this.filepath = `images/${name}`;
   this.votes = votes;
@@ -190,13 +190,6 @@ function productDescription(event) {
       }
       productDescriptionEl.textContent = index;
     }
-  //   event.target.style.color = 'orange';                             //
-  //   console.log('inside of something else', event.target.id);        //  Saving this bit
-  //   setTimeout(function() {                                          //  for future testing
-  //     event.target.style.color = '';                                 //  or other types of
-  //   }, 200);                                                         //  shennannigans
-  // } else {                                                           //
-  //   console.log('inside of fieldset');                               //
   }
 }
 
